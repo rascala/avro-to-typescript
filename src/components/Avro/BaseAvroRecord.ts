@@ -11,8 +11,12 @@ export abstract class BaseAvroRecord implements AvroRecord {
     @Memoize((schema: any) => {
         return schema.namespace + schema.name;
     })
-    public static getTypeForSchema(schema: any): Type {
-        return avro.Type.forSchema(schema);
+    public static getTypeForSchema(schema: any, opts?: any): Type {
+        return avro.Type.forSchema(schema, opts);
+    }
+
+    public static getType(opts?: any): Type {
+        return this.getTypeForSchema(this.schema, opts);
     }
 
     @Memoize((schema: any) => {

@@ -1,0 +1,37 @@
+export interface AvroSchema {
+    type: TypeNames;
+}
+export declare type Type = NameOrType | NameOrType[];
+export declare type NameOrType = TypeNames | RecordType | ArrayType | NamedType | LogicalType;
+export declare type TypeNames = "record" | "array" | "null" | "map" | string;
+export interface Field {
+    name: string;
+    type: Type;
+    default?: string | number | null | boolean | any[];
+}
+export interface RecordType extends AvroSchema {
+    type: "record";
+    name: string;
+    namespace: string;
+    fields: Field[];
+}
+export interface ArrayType extends AvroSchema {
+    type: "array";
+    items: Type;
+}
+export interface MapType extends AvroSchema {
+    type: "map";
+    values: Type;
+}
+export interface EnumType extends AvroSchema {
+    type: "enum";
+    name: string;
+    symbols: string[];
+}
+export interface NamedType extends AvroSchema {
+    type: string;
+}
+export interface LogicalType extends AvroSchema {
+    type: string;
+    logicalType: string;
+}

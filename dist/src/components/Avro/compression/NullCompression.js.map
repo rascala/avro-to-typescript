@@ -1,0 +1,1 @@
+{"version":3,"file":"NullCompression.js","sourceRoot":"/Users/mj/michaelhirn/avro-to-typescript/src/","sources":["src/components/Avro/compression/NullCompression.ts"],"names":[],"mappings":";;AAEA;IAEW,QAAQ,CAAC,MAAc;QAC1B,OAAO,MAAM,CAAC;IAClB,CAAC;IAEM,UAAU,CAAC,MAAc;QAC5B,OAAO,MAAM,CAAC;IAClB,CAAC;CACJ;AATD,0CASC"}
