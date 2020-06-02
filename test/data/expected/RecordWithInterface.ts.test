@@ -4,7 +4,7 @@ export interface EmailAddress {
     dateAdded: number;
 }
 
-export interface comexampleavroUser {
+export interface comExampleAvroUser {
     id: number;
     username: string;
     passwordHash: string;

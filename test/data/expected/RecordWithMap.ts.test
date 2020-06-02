@@ -2,7 +2,7 @@ export interface Foo {
     label: string;
 }
 
-export interface comexampleavroUser {
+export interface comExampleAvroUser {
     id: number;
     username: string;
     passwordHash: string;
