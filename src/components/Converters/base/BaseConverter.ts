@@ -16,7 +16,10 @@ export abstract class BaseConverter {
     public enumExports: ExportModel[] = [];
     public interfaceExports: ExportModel[] = [];
 
-    constructor(public logicalTypesMap: { [key: string]: string } = {}) {}
+    constructor(
+        public logicalTypesMap: {[key: string]: string } = {},
+        public transformName?: (input: string) => string,
+    ) {}
 
     public abstract convert(data: any): any;
 
@@ -32,7 +35,7 @@ export abstract class BaseConverter {
 
                 exports.push(nextExport.content);
 
-                return `${exports.join(`${SpecialCharacterHelper.NEW_LINE}${SpecialCharacterHelper.NEW_LINE}`)}`;
+                return exports.join(`${SpecialCharacterHelper.NEW_LINE}${SpecialCharacterHelper.NEW_LINE}`);
             }, "");
         result += `${SpecialCharacterHelper.NEW_LINE}`;
 
