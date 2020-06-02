@@ -17,7 +17,7 @@ const getExpectedResult = (file: string) => {
 
 describe("RecordType Converter test", () => {
     it("should convert User avro schema to TS class", () => {
-        const converter = new ClassConverter();
+        const converter = new ClassConverter({}, (str) => str.replace(/\./gu, ""));
         converter.convert(`${avroFolder}/User.avsc`);
 
         const actual = converter.joinExports();
@@ -26,7 +26,7 @@ describe("RecordType Converter test", () => {
     });
 
     it("should convert TradeCollection avro schema to TS class", () => {
-        const converter = new ClassConverter();
+        const converter = new ClassConverter({}, (str) => str.replace(/\./gu, ""));
         converter.convert(`${avroFolder}/TradeCollection.avsc`);
 
         const actual = converter.joinExports();

@@ -17,7 +17,7 @@ const getExpectedResult = (file: string) => {
 
 describe("RecordType Converter test", () => {
     it("should convert simple avro schema to TS interface", () => {
-        const converter = new RecordConverter();
+        const converter = new RecordConverter({}, (str) => str.replace(/\./gu, ""));
         converter.convert(`${avroFolder}/SimpleRecord.avsc`);
 
         const actual = converter.joinExports();
@@ -26,7 +26,7 @@ describe("RecordType Converter test", () => {
     });
 
     it("should convert simple avro schema json to TS interface", () => {
-        const converter = new RecordConverter();
+        const converter = new RecordConverter({}, (str) => str.replace(/\./gu, ""));
         const avro = JSON.parse(fs.readFileSync(`${avroFolder}/SimpleRecord.json`).toString());
         converter.convert(avro);
 
@@ -36,7 +36,7 @@ describe("RecordType Converter test", () => {
     });
 
     it("should convert avro schema with interface to TS interface", () => {
-        const converter = new RecordConverter();
+        const converter = new RecordConverter({}, (str) => str.replace(/\./gu, ""));
         converter.convert(`${avroFolder}/RecordWithInterface.avsc`);
 
         const actual = converter.joinExports();
@@ -45,7 +45,7 @@ describe("RecordType Converter test", () => {
     });
 
     it("should convert avro schema with MapType type to TS interface", () => {
-        const converter = new RecordConverter();
+        const converter = new RecordConverter({}, (str) => str.replace(/\./gu, ""));
         converter.convert(`${avroFolder}/RecordWithMap.avsc`);
 
         const actual = converter.joinExports();
@@ -54,7 +54,7 @@ describe("RecordType Converter test", () => {
     });
 
     it("should convert avro schema with all types to TS interface", () => {
-        const converter = new RecordConverter();
+        const converter = new RecordConverter({}, (str) => str.replace(/\./gu, ""));
         converter.convert(`${avroFolder}/RecordWithUnion.avsc`);
 
         const actual = converter.joinExports();
@@ -63,7 +63,7 @@ describe("RecordType Converter test", () => {
     });
 
     it("should convert avro schema with logical types", () => {
-        const converter = new RecordConverter();
+        const converter = new RecordConverter({}, (str) => str.replace(/\./gu, ""));
         converter.convert(`${avroFolder}/RecordWithLogicalTypes.avsc`);
 
         const actual = converter.joinExports();
@@ -72,7 +72,7 @@ describe("RecordType Converter test", () => {
     });
 
     it("should convert avro schema with mapped logical types", () => {
-        const converter = new RecordConverter({ "timestamp-millis" : "string" });
+        const converter = new RecordConverter({ "timestamp-millis" : "string" }, (str) => str.replace(/\./gu, ""));
         converter.convert(`${avroFolder}/RecordWithLogicalTypes.avsc`);
 
         const actual = converter.joinExports();
@@ -81,7 +81,7 @@ describe("RecordType Converter test", () => {
     });
 
     it("should convert avro schema with MapType type to TS interface", () => {
-        const converter = new RecordConverter();
+        const converter = new RecordConverter({}, (str) => str.replace(/\./gu, ""));
         converter.convert(`${avroFolder}/ComplexRecord.avsc`);
 
         const actual = converter.joinExports();
