@@ -67,16 +67,20 @@ export class ClassConverter extends RecordConverter {
         const interfaceRows: string[] = [];
         const TAB = SpecialCharacterHelper.TAB;
 
-        interfaceRows.push(`export interface ${data.name}${this.interfaceSuffix} {`);
-        rows.push(`export class ${data.name} extends BaseAvroRecord implements ${data.name}${this.interfaceSuffix} {`);
+        let fullName = data.name;
+        if (data.namespace) { fullName = `${data.namespace}.${fullName}`; }
+        if (typeof this.transformName === "function") { fullName = this.transformName(fullName); }
+
+        interfaceRows.push(`export interface ${fullName}${this.interfaceSuffix} {`);
+        rows.push(`export class ${fullName} extends BaseAvroRecord implements ${fullName}${this.interfaceSuffix} {`);
         rows.push(``);
 
-        rows.push(`${TAB}public static readonly subject: string = "${data.name}";`);
+        rows.push(`${TAB}public static readonly subject: string = "${fullName}";`);
         rows.push(`${TAB}public static readonly schema: object = ${JSON.stringify(data, null, 4)}`);
         rows.push(``);
 
-        rows.push(`${TAB}public static deserialize(buffer: Buffer, newSchema?: object): ${data.name} {`);
-        rows.push(`${TAB}${TAB}const result = new ${data.name}();`);
+        rows.push(`${TAB}public static deserialize(buffer: Buffer, newSchema?: object): ${fullName} {`);
+        rows.push(`${TAB}${TAB}const result = new ${fullName}();`);
         rows.push(`${TAB}${TAB}const rawResult = this.internalDeserialize(buffer, newSchema);`);
         rows.push(`${TAB}${TAB}result.loadValuesFromType(rawResult);`);
         rows.push(``);
@@ -87,14 +91,16 @@ export class ClassConverter extends RecordConverter {
         for (const field of data.fields) {
             let fieldType;
             let classRow;
+            let fullFieldName = field.name;
+            if (typeof this.transformName === "function") { fullFieldName = this.transformName(fullFieldName); }
             if (TypeHelper.hasDefault(field) || TypeHelper.isOptional(field.type)) {
                 const defaultValue = TypeHelper.hasDefault(field) ? ` = ${TypeHelper.getDefault(field)}` : "";
-                fieldType = `${this.getField(field)}`;
+                fieldType = `${this.getField(field, fullFieldName)}`;
                 classRow = `${TAB}public ${fieldType}${defaultValue};`;
             } else {
                 const convertedType = this.convertType(field.type);
-                fieldType = `${field.name}: ${convertedType}`;
-                classRow = `${TAB}public ${field.name}!: ${convertedType};`;
+                fieldType = `${fullFieldName}: ${convertedType}`;
+                classRow = `${TAB}public ${fullFieldName}!: ${convertedType};`;
             }
 
             interfaceRows.push(`${this.TAB}${fieldType};`);
@@ -106,13 +112,13 @@ export class ClassConverter extends RecordConverter {
         rows.push(``);
 
         rows.push(`${TAB}public schema(): object {`);
-        rows.push(`${TAB}${TAB}return ${data.name}.schema;`);
+        rows.push(`${TAB}${TAB}return ${fullName}.schema;`);
         rows.push(`${TAB}}`);
 
         rows.push(``);
 
         rows.push(`${TAB}public subject(): string {`);
-        rows.push(`${TAB}${TAB}return ${data.name}.subject;`);
+        rows.push(`${TAB}${TAB}return ${fullName}.subject;`);
         rows.push(`${TAB}}`);
 
         rows.push(`}`);

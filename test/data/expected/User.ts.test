@@ -27,7 +27,7 @@ export interface ToDoItem {
     subItems: any[];
 }
 
-export interface UserInterface {
+export interface comExampleAvroUserInterface {
     id: number;
     username: string;
     passwordHash: string;
@@ -37,9 +37,9 @@ export interface UserInterface {
     toDoItems: ToDoItem[];
 }
 
-export class User extends BaseAvroRecord implements UserInterface {
+export class comExampleAvroUser extends BaseAvroRecord implements comExampleAvroUserInterface {
 
-    public static readonly subject: string = "User";
+    public static readonly subject: string = "comExampleAvroUser";
     public static readonly schema: object = {
     "type": "record",
     "name": "User",
@@ -224,8 +224,8 @@ export class User extends BaseAvroRecord implements UserInterface {
     ]
 }
 
-    public static deserialize(buffer: Buffer, newSchema?: object): User {
-        const result = new User();
+    public static deserialize(buffer: Buffer, newSchema?: object): comExampleAvroUser {
+        const result = new comExampleAvroUser();
         const rawResult = this.internalDeserialize(buffer, newSchema);
         result.loadValuesFromType(rawResult);
 
@@ -241,10 +241,10 @@ export class User extends BaseAvroRecord implements UserInterface {
     public toDoItems!: ToDoItem[];
 
     public schema(): object {
-        return User.schema;
+        return comExampleAvroUser.schema;
     }
 
     public subject(): string {
-        return User.subject;
+        return comExampleAvroUser.subject;
     }
 }

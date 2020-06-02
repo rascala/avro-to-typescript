@@ -13,16 +13,16 @@ export interface Trade {
     side?: null | TradeDirection;
 }
 
-export interface TradeCollectionInterface {
+export interface comExampleAvroTradeCollectionInterface {
     producerId: string;
     exchange: string;
     market: string;
     trades: Trade[];
 }
 
-export class TradeCollection extends BaseAvroRecord implements TradeCollectionInterface {
+export class comExampleAvroTradeCollection extends BaseAvroRecord implements comExampleAvroTradeCollectionInterface {
 
-    public static readonly subject: string = "TradeCollection";
+    public static readonly subject: string = "comExampleAvroTradeCollection";
     public static readonly schema: object = {
     "type": "record",
     "name": "TradeCollection",
@@ -114,8 +114,8 @@ export class TradeCollection extends BaseAvroRecord implements TradeCollectionIn
     ]
 }
 
-    public static deserialize(buffer: Buffer, newSchema?: object): TradeCollection {
-        const result = new TradeCollection();
+    public static deserialize(buffer: Buffer, newSchema?: object): comExampleAvroTradeCollection {
+        const result = new comExampleAvroTradeCollection();
         const rawResult = this.internalDeserialize(buffer, newSchema);
         result.loadValuesFromType(rawResult);
 
@@ -128,10 +128,10 @@ export class TradeCollection extends BaseAvroRecord implements TradeCollectionIn
     public trades: Trade[] = [];
 
     public schema(): object {
-        return TradeCollection.schema;
+        return comExampleAvroTradeCollection.schema;
     }
 
     public subject(): string {
-        return TradeCollection.subject;
+        return comExampleAvroTradeCollection.subject;
     }
 }
