@@ -12,6 +12,13 @@ const avroFolder = path.resolve(dataFolder + `/avro/`);
 const expectedFolder = path.resolve(dataFolder + `/expected/`);
 const compiledFolder = path.resolve(dataFolder + `/compiled/`);
 
+const toCamelCase = (name: string) => {
+    return name.replace(
+        /(\w)\.(\w)/gu,
+        (match, p1: string, p2: string) => `${p1}${p2.toUpperCase()}`,
+    );
+};
+
 describe("Testing Compiler", () => {
 
     afterEach(() => {
@@ -25,7 +32,7 @@ describe("Testing Compiler", () => {
         const compiledFile = `${compiledFolder}/com/example/avro/User.ts`;
         const expectedFile = `${expectedFolder}/User.ts.test`;
 
-        const compiler = new Compiler(compiledFolder, {}, (str) => str.replace(/\./gu, ""));
+        const compiler = new Compiler(compiledFolder, {transformName: toCamelCase});
 
         await compiler.compile(avro);
 
@@ -40,7 +47,7 @@ describe("Testing Compiler", () => {
         const compiledFile = `${compiledFolder}/com/example/avro/TradeCollection.ts`;
         const expectedFile = `${expectedFolder}/TradeCollection.ts.test`;
 
-        const compiler = new Compiler(compiledFolder, {}, (str) => str.replace(/\./gu, ""));
+        const compiler = new Compiler(compiledFolder, {transformName: toCamelCase});
 
         await compiler.compile(avro);
 
@@ -55,7 +62,7 @@ describe("Testing Compiler", () => {
         const compiledFile = `${compiledFolder}/BaseAvroRecord.ts`;
         const expectedFile = `${expectedFolder}/BaseAvroRecord.ts.test`;
 
-        const compiler = new Compiler(compiledFolder, {}, (str) => str.replace(/\./gu, ""));
+        const compiler = new Compiler(compiledFolder, {transformName: toCamelCase});
 
         await compiler.compile(avro);
 

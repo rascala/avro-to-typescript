@@ -14,24 +14,24 @@ export class RecordConverter extends BaseConverter {
     public convert(data: any): ExportModel {
         data = this.getData(data) as RecordType;
 
-        let name = data.name;
-        if (data.namespace) { name = `${data.namespace}.${name}`; }
-        if (typeof this.transformName === "function") { name = this.transformName(name); }
+        let fullName = data.name;
+        if (data.namespace) { fullName = `${data.namespace}.${fullName}`; }
+        if (typeof this.transformName === "function") { fullName = this.transformName(fullName); }
 
-        this.interfaceRows.push(...this.extractInterface(data, name));
+        this.interfaceRows.push(...this.extractInterface(data, fullName));
 
         const exportModel = new ExportModel();
-        exportModel.name = name;
+        exportModel.name = fullName;
         exportModel.content = this.interfaceRows.join(SpecialCharacterHelper.NEW_LINE);
         this.exports.push(exportModel);
 
         return exportModel;
     }
 
-    protected extractInterface(data: RecordType, name?: string): string[] {
+    protected extractInterface(data: RecordType, transformedName?: string): string[] {
         const rows: string[] = [];
 
-        rows.push(`export interface ${name || data.name} {`);
+        rows.push(`export interface ${transformedName || data.name} {`);
 
         for (const field of data.fields) {
             const fieldType = `${this.getField(field)};`;
@@ -88,7 +88,7 @@ export class RecordConverter extends BaseConverter {
         return "any";
     }
 
-    protected getField(field: Field, fieldName?: string): string {
-        return `${fieldName || field.name}${TypeHelper.isOptional(field.type) ? "?" : ""}: ${this.convertType(field.type)}`;
+    protected getField(field: Field, transformedFieldName?: string): string {
+        return `${transformedFieldName || field.name}${TypeHelper.isOptional(field.type) ? "?" : ""}: ${this.convertType(field.type)}`;
     }
 }

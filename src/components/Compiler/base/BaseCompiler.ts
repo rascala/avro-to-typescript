@@ -1,3 +1,8 @@
+export interface CompilerConfig {
+    logicalTypes?: { [key: string]: string};
+    transformName?: (input: string) => string;
+}
+
 export abstract class BaseCompiler {
     private _schemaPath: string;
     private _classPath: string;
