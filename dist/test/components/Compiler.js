@@ -10,6 +10,10 @@ const dataFolder = path.resolve(`${__dirname}/../../../test/data/`);
 const avroFolder = path.resolve(dataFolder + `/avro/`);
 const expectedFolder = path.resolve(dataFolder + `/expected/`);
 const compiledFolder = path.resolve(dataFolder + `/compiled/`);
+const toCamelCase = (name) => {
+    return name.replace(/(\w)\.(\w)/gu, (match, p1, p2) => `${p1}${p2.toUpperCase()}`);
+};
+const logicalTypesImport = "import { logicalTypes } from \"@your/library\";";
 describe("Testing Compiler", () => {
     afterEach(() => {
         fs.removeSync(compiledFolder + "/com");
@@ -19,7 +23,13 @@ describe("Testing Compiler", () => {
         const avro = `${avroFolder}/User.avsc`;
         const compiledFile = `${compiledFolder}/com/example/avro/User.ts`;
         const expectedFile = `${expectedFolder}/User.ts.test`;
-        const compiler = new src_1.Compiler(compiledFolder);
+        const compiler = new src_1.Compiler(compiledFolder, {
+            transformName: toCamelCase,
+            logicalTypes: {
+                importFrom: logicalTypesImport,
+                className: "logicalTypes",
+            },
+        });
         await compiler.compile(avro);
         const actual = fs.readFileSync(compiledFile).toString();
         const expected = fs.readFileSync(expectedFile).toString();
@@ -29,7 +39,13 @@ describe("Testing Compiler", () => {
         const avro = `${avroFolder}/TradeCollection.avsc`;
         const compiledFile = `${compiledFolder}/com/example/avro/TradeCollection.ts`;
         const expectedFile = `${expectedFolder}/TradeCollection.ts.test`;
-        const compiler = new src_1.Compiler(compiledFolder);
+        const compiler = new src_1.Compiler(compiledFolder, {
+            transformName: toCamelCase,
+            logicalTypes: {
+                importFrom: logicalTypesImport,
+                className: "logicalTypes",
+            },
+        });
         await compiler.compile(avro);
         const actual = fs.readFileSync(compiledFile).toString();
         const expected = fs.readFileSync(expectedFile).toString();
@@ -39,7 +55,13 @@ describe("Testing Compiler", () => {
         const avro = `${avroFolder}/User.avsc`;
         const compiledFile = `${compiledFolder}/BaseAvroRecord.ts`;
         const expectedFile = `${expectedFolder}/BaseAvroRecord.ts.test`;
-        const compiler = new src_1.Compiler(compiledFolder);
+        const compiler = new src_1.Compiler(compiledFolder, {
+            transformName: toCamelCase,
+            logicalTypes: {
+                importFrom: logicalTypesImport,
+                className: "logicalTypes",
+            },
+        });
         await compiler.compile(avro);
         const actual = fs.readFileSync(compiledFile).toString();
         const expected = fs.readFileSync(expectedFile).toString();

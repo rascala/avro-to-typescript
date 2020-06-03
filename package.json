@@ -48,7 +48,7 @@
     "command-line-args": "^5.0.2",
     "command-line-usage": "^5.0.5",
     "fs-extra": "^5.0.0",
-    "schema-registry": "^1.17.0",
+    "schema-registry": "^1.18.0",
     "typescript-memoize": "^1.0.0-alpha.3"
   },
   "devDependencies": {
