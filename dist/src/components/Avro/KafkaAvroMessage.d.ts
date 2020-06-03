@@ -1,4 +1,3 @@
-/// <reference types="node" />
 export declare class KafkaAvroMessage {
     static MAGIC_BYTE: number;
     static fromBuffer(buffer: Buffer): KafkaAvroMessage;

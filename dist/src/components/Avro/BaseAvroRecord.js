@@ -18,8 +18,8 @@ class BaseAvroRecord {
     static createTypeResolver(baseType, newType) {
         return baseType.createResolver(newType);
     }
-    static internalDeserialize(buffer, newSchema) {
-        const baseType = BaseAvroRecord.getTypeForSchema(this.schema);
+    static internalDeserialize(buffer, newSchema, opts) {
+        const baseType = BaseAvroRecord.getTypeForSchema(this.schema, opts);
         let resolver;
         let noCheck = false;
         if (newSchema !== undefined) {

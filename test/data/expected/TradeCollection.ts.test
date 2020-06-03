@@ -117,7 +117,11 @@ export class comExampleAvroTradeCollection extends BaseAvroRecord implements com
 
     public static deserialize(buffer: Buffer, newSchema?: object): comExampleAvroTradeCollection {
         const result = new comExampleAvroTradeCollection();
-        const rawResult = this.internalDeserialize(buffer, newSchema, { logicalTypes });
+        const rawResult = this.internalDeserialize(
+            buffer,
+            newSchema,
+            { logicalTypes: logicalTypes }
+        );
         result.loadValuesFromType(rawResult);
 
         return result;

@@ -84,7 +84,13 @@ export class ClassConverter extends RecordConverter {
 
         rows.push(`${TAB}public static deserialize(buffer: Buffer, newSchema?: object): ${fullName} {`);
         rows.push(`${TAB}${TAB}const result = new ${fullName}();`);
-        rows.push(`${TAB}${TAB}const rawResult = this.internalDeserialize(buffer, newSchema${this.logicalTypes.className ? ", { " + this.logicalTypes.className + " }" : "" });`);
+        rows.push(
+          `${TAB}${TAB}const rawResult = this.internalDeserialize(
+            buffer,
+            newSchema,
+            ${this.logicalTypes.className ? `{ logicalTypes: ${this.logicalTypes.className} }` : "" }
+        );`,
+        );
         rows.push(`${TAB}${TAB}result.loadValuesFromType(rawResult);`);
         rows.push(``);
         rows.push(`${TAB}${TAB}return result;`);

@@ -1,4 +1,3 @@
-/// <reference types="node" />
 export declare class FileHelper {
     filePath: string;
     constructor(filePath: string);
