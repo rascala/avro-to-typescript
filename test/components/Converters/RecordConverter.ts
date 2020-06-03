@@ -92,7 +92,6 @@ describe("RecordType Converter test", () => {
 
     it("should convert avro schema with mapped logical types", () => {
         const converter = new RecordConverter({
-            logicalTypes: { "timestamp-millis" : "string" },
             transformName: toCamelCase,
         });
         converter.convert(`${avroFolder}/RecordWithLogicalTypes.avsc`);

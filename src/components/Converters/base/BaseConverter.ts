@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { SpecialCharacterHelper } from "../../../helpers/SpecialCharacterHelper";
 import { AvroSchema } from "../../../interfaces/AvroSchema";
 import { ExportModel } from "../../../models/ExportModel";
-import { CompilerConfig } from "../../Compiler/base/BaseCompiler";
+import { CompilerConfig, LogicalTypesConfig } from "../../Compiler/base/BaseCompiler";
 
 export abstract class BaseConverter {
     public static errorMessages = {
@@ -16,14 +16,17 @@ export abstract class BaseConverter {
     public exports: ExportModel[] = [];
     public enumExports: ExportModel[] = [];
     public interfaceExports: ExportModel[] = [];
-    public logicalTypesMap: {[key: string]: string } = {};
     public transformName?: (input: string) => string;
+    public logicalTypes: LogicalTypesConfig = {
+        className: undefined,
+        importFrom: undefined,
+    };
 
     constructor(config?: CompilerConfig) {
         if (config) {
             this.transformName = config.transformName;
             if (config.logicalTypes) {
-                this.logicalTypesMap = config.logicalTypes;
+                this.logicalTypes = config.logicalTypes;
             }
         }
     }

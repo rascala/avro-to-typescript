@@ -19,6 +19,8 @@ const toCamelCase = (name: string) => {
     );
 };
 
+const logicalTypesImport = "import { logicalTypes } from \"@your/library\";";
+
 describe("Testing Compiler", () => {
 
     afterEach(() => {
@@ -32,7 +34,13 @@ describe("Testing Compiler", () => {
         const compiledFile = `${compiledFolder}/com/example/avro/User.ts`;
         const expectedFile = `${expectedFolder}/User.ts.test`;
 
-        const compiler = new Compiler(compiledFolder, {transformName: toCamelCase});
+        const compiler = new Compiler(compiledFolder, {
+            transformName: toCamelCase,
+            logicalTypes: {
+                importFrom: logicalTypesImport,
+                className: "logicalTypes",
+            },
+        });
 
         await compiler.compile(avro);
 
@@ -47,7 +55,13 @@ describe("Testing Compiler", () => {
         const compiledFile = `${compiledFolder}/com/example/avro/TradeCollection.ts`;
         const expectedFile = `${expectedFolder}/TradeCollection.ts.test`;
 
-        const compiler = new Compiler(compiledFolder, {transformName: toCamelCase});
+        const compiler = new Compiler(compiledFolder, {
+            transformName: toCamelCase,
+            logicalTypes: {
+                importFrom: logicalTypesImport,
+                className: "logicalTypes",
+            },
+        });
 
         await compiler.compile(avro);
 
@@ -62,7 +76,13 @@ describe("Testing Compiler", () => {
         const compiledFile = `${compiledFolder}/BaseAvroRecord.ts`;
         const expectedFile = `${expectedFolder}/BaseAvroRecord.ts.test`;
 
-        const compiler = new Compiler(compiledFolder, {transformName: toCamelCase});
+        const compiler = new Compiler(compiledFolder, {
+            transformName: toCamelCase,
+            logicalTypes: {
+                importFrom: logicalTypesImport,
+                className: "logicalTypes",
+            },
+        });
 
         await compiler.compile(avro);
 
