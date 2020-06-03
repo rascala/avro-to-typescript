@@ -22,10 +22,16 @@ const toCamelCase = (name: string) => {
     );
 };
 
+const imports = [
+    "import { logicalTypes } from \"@your/library\";",
+];
+
 describe("RecordType Converter test", () => {
     it("should convert User avro schema to TS class", () => {
         const converter = new ClassConverter({
             transformName: toCamelCase,
+            imports,
+            logicalTypesClass: "logicalTypes",
         });
         converter.convert(`${avroFolder}/User.avsc`);
 
@@ -37,6 +43,8 @@ describe("RecordType Converter test", () => {
     it("should convert TradeCollection avro schema to TS class", () => {
         const converter = new ClassConverter({
             transformName: toCamelCase,
+            imports,
+            logicalTypesClass: "logicalTypes",
         });
         converter.convert(`${avroFolder}/TradeCollection.avsc`);
 

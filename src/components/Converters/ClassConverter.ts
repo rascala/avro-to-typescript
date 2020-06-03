@@ -53,6 +53,7 @@ export class ClassConverter extends RecordConverter {
 
         rows.push(`// tslint:disable`);
         rows.push(`import { BaseAvroRecord } from "` + "../".repeat(dirsUp) + `BaseAvroRecord";`);
+        this.imports.forEach((configImport) => rows.push(configImport));
 
         for (const enumFile of this.enumExports) {
             const importLine = `import { ${enumFile.name} } from "./${enumFile.name}Enum";`;
@@ -81,7 +82,7 @@ export class ClassConverter extends RecordConverter {
 
         rows.push(`${TAB}public static deserialize(buffer: Buffer, newSchema?: object): ${fullName} {`);
         rows.push(`${TAB}${TAB}const result = new ${fullName}();`);
-        rows.push(`${TAB}${TAB}const rawResult = this.internalDeserialize(buffer, newSchema);`);
+        rows.push(`${TAB}${TAB}const rawResult = this.internalDeserialize(buffer, newSchema${this.logicalTypesClass ? ", { " + this.logicalTypesClass + " }" : "" });`);
         rows.push(`${TAB}${TAB}result.loadValuesFromType(rawResult);`);
         rows.push(``);
         rows.push(`${TAB}${TAB}return result;`);
@@ -95,7 +96,7 @@ export class ClassConverter extends RecordConverter {
             if (typeof this.transformName === "function") { fullFieldName = this.transformName(fullFieldName); }
             if (TypeHelper.hasDefault(field) || TypeHelper.isOptional(field.type)) {
                 const defaultValue = TypeHelper.hasDefault(field) ? ` = ${TypeHelper.getDefault(field)}` : "";
-                fieldType = `${this.getField(field, fullFieldName)}`;
+                fieldType = `${this.getField(field)}`;
                 classRow = `${TAB}public ${fieldType}${defaultValue};`;
             } else {
                 const convertedType = this.convertType(field.type);

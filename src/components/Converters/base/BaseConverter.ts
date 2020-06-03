@@ -18,13 +18,15 @@ export abstract class BaseConverter {
     public interfaceExports: ExportModel[] = [];
     public logicalTypesMap: {[key: string]: string } = {};
     public transformName?: (input: string) => string;
+    public imports: string[] = [];
+    public logicalTypesClass?: string;
 
     constructor(config?: CompilerConfig) {
         if (config) {
             this.transformName = config.transformName;
-            if (config.logicalTypes) {
-                this.logicalTypesMap = config.logicalTypes;
-            }
+            this.logicalTypesClass = config.logicalTypesClass;
+            this.logicalTypesMap = config.logicalTypes || {};
+            this.imports = config.imports || [];
         }
     }
 

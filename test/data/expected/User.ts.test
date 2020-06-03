@@ -1,5 +1,6 @@
 // tslint:disable
 import { BaseAvroRecord } from "../../../BaseAvroRecord";
+import { logicalTypes } from "@your/library";
 import { OAuthStatus } from "./OAuthStatusEnum";
 import { ToDoStatus } from "./ToDoStatusEnum";
 
@@ -24,7 +25,7 @@ export interface ToDoItem {
     title: string;
     description?: null | string;
     snoozeDate?: null | number;
-    subItems: any[];
+    subItems: ToDoItem[];
 }
 
 export interface comExampleAvroUserInterface {
@@ -226,7 +227,7 @@ export class comExampleAvroUser extends BaseAvroRecord implements comExampleAvro
 
     public static deserialize(buffer: Buffer, newSchema?: object): comExampleAvroUser {
         const result = new comExampleAvroUser();
-        const rawResult = this.internalDeserialize(buffer, newSchema);
+        const rawResult = this.internalDeserialize(buffer, newSchema, { logicalTypes });
         result.loadValuesFromType(rawResult);
 
         return result;

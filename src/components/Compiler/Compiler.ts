@@ -12,6 +12,8 @@ export class Compiler extends BaseCompiler {
     public exports: ExportModel[];
     public logicalTypesMap: {[key: string]: string } = {};
     public transformName?: (input: string) => string;
+    public imports: string[] = [];
+    public logicalTypesClass?: string;
 
     public constructor(
         outputDir: string,
@@ -22,9 +24,9 @@ export class Compiler extends BaseCompiler {
         this.classPath = path.resolve(outputDir);
         if (config) {
             this.transformName = config.transformName;
-            if (config.logicalTypes) {
-                this.logicalTypesMap = config.logicalTypes;
-            }
+            this.logicalTypesClass = config.logicalTypesClass;
+            this.logicalTypesMap = config.logicalTypes || {};
+            this.imports = config.imports || [];
         }
     }
 
@@ -53,6 +55,8 @@ export class Compiler extends BaseCompiler {
         const classConverter = new ClassConverter({
             logicalTypes: this.logicalTypesMap,
             transformName: this.transformName,
+            imports: this.imports,
+            logicalTypesClass: this.logicalTypesClass,
         });
         data = classConverter.getData(data);
 
@@ -96,7 +100,10 @@ export class Compiler extends BaseCompiler {
         if (!fs.existsSync(avroRecordPath)) {
             fs.writeFileSync(
                 avroRecordPath,
-                "export { BaseAvroRecord } from \"@degordian/avro-to-typescript\";\n",
+                [
+                    "export { BaseAvroRecord } from \"@degordian/avro-to-typescript\";",
+                    // ...this.imports,
+                ].join("\n"),
             );
         }
     }

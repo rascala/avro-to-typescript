@@ -1,5 +1,6 @@
 // tslint:disable
 import { BaseAvroRecord } from "../../../BaseAvroRecord";
+import { logicalTypes } from "@your/library";
 import { TradeType } from "./TradeTypeEnum";
 import { TradeDirection } from "./TradeDirectionEnum";
 
@@ -116,7 +117,7 @@ export class comExampleAvroTradeCollection extends BaseAvroRecord implements com
 
     public static deserialize(buffer: Buffer, newSchema?: object): comExampleAvroTradeCollection {
         const result = new comExampleAvroTradeCollection();
-        const rawResult = this.internalDeserialize(buffer, newSchema);
+        const rawResult = this.internalDeserialize(buffer, newSchema, { logicalTypes });
         result.loadValuesFromType(rawResult);
 
         return result;

@@ -1,6 +1,8 @@
 export interface CompilerConfig {
     logicalTypes?: { [key: string]: string};
     transformName?: (input: string) => string;
+    imports?: string[];
+    logicalTypesClass?: string;
 }
 
 export abstract class BaseCompiler {
