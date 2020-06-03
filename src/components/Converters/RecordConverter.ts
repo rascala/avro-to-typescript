@@ -4,7 +4,6 @@ import { Field, RecordType, Type } from "../../interfaces/AvroSchema";
 import { ExportModel } from "../../models/ExportModel";
 import { BaseConverter } from "./base/BaseConverter";
 import { EnumConverter } from "./EnumConverter";
-import { LogicalTypeConverter } from "./LogicalTypeConverter";
 import { PrimitiveConverter } from "./PrimitiveConverter";
 
 export class RecordConverter extends BaseConverter {
