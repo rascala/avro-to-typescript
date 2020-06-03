@@ -46,16 +46,19 @@ export class RecordConverter extends BaseConverter {
     }
 
     protected convertType(type: Type): string {
+        const primitiveConverter = new PrimitiveConverter();
         if (typeof type === "string") {
-            const converter = new PrimitiveConverter();
-
-            return converter.convert(type);
+            return primitiveConverter.convert(type);
         }
 
-        // if (TypeHelper.isLogicalType(type)) {
-        //     const converter = new LogicalTypeConverter(this.logicalTypesMap);
-        //     return converter.convert(type);
-        // }
+        // convert the type from logicalTypeMapping and let it pass through
+        // so that other transformations may override it
+        if (TypeHelper.isLogicalType(type) &&
+            this.logicalTypes.map &&
+            type.logicalType in this.logicalTypes.map
+        ) {
+            type.type = this.logicalTypes.map[type.logicalType];
+        }
 
         if (TypeHelper.isEnumType(type)) {
             const converter = new EnumConverter();
@@ -85,7 +88,14 @@ export class RecordConverter extends BaseConverter {
             return `{ [index: string]: ${this.convertType(type.values)} }`;
         }
 
+        // if no other types matched, try to convert from primitive
+        // or return as is if no primitive-types match
+        if (TypeHelper.isLogicalType(type)) {
+            return primitiveConverter.convert(type.type);
+        }
+
         // this.addError(BaseConverter.errorMessages.TYPE_NOT_FOUND);
+        // failure state, not sure what the type is
         return "any";
     }
 

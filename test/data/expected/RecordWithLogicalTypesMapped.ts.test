@@ -1,4 +1,4 @@
 export interface comExampleAvroEvent {
     id: number;
-    createdAt: number;
+    createdAt: string;
 }
