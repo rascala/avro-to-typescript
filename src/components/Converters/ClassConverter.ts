@@ -53,7 +53,9 @@ export class ClassConverter extends RecordConverter {
 
         rows.push(`// tslint:disable`);
         rows.push(`import { BaseAvroRecord } from "` + "../".repeat(dirsUp) + `BaseAvroRecord";`);
-        this.imports.forEach((configImport) => rows.push(configImport));
+        if (this.logicalTypes.importFrom) {
+            rows.push(this.logicalTypes.importFrom);
+        }
 
         for (const enumFile of this.enumExports) {
             const importLine = `import { ${enumFile.name} } from "./${enumFile.name}Enum";`;
@@ -82,7 +84,7 @@ export class ClassConverter extends RecordConverter {
 
         rows.push(`${TAB}public static deserialize(buffer: Buffer, newSchema?: object): ${fullName} {`);
         rows.push(`${TAB}${TAB}const result = new ${fullName}();`);
-        rows.push(`${TAB}${TAB}const rawResult = this.internalDeserialize(buffer, newSchema${this.logicalTypesClass ? ", { " + this.logicalTypesClass + " }" : "" });`);
+        rows.push(`${TAB}${TAB}const rawResult = this.internalDeserialize(buffer, newSchema${this.logicalTypes.className ? ", { " + this.logicalTypes.className + " }" : "" });`);
         rows.push(`${TAB}${TAB}result.loadValuesFromType(rawResult);`);
         rows.push(``);
         rows.push(`${TAB}${TAB}return result;`);

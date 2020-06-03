@@ -4,16 +4,18 @@ import { DirHelper } from "../../helpers/DirHelper";
 import { TypeHelper } from "../../helpers/TypeHelper";
 import { CompilerOutput } from "../../interfaces/CompilerOutput";
 import { ExportModel } from "../../models/ExportModel";
-import { CompilerConfig } from "../Compiler/base/BaseCompiler";
+import { CompilerConfig, LogicalTypesConfig } from "../Compiler/base/BaseCompiler";
 import { ClassConverter } from "../Converters/ClassConverter";
 import { BaseCompiler } from "./base/BaseCompiler";
 
 export class Compiler extends BaseCompiler {
     public exports: ExportModel[];
-    public logicalTypesMap: {[key: string]: string } = {};
     public transformName?: (input: string) => string;
-    public imports: string[] = [];
-    public logicalTypesClass?: string;
+    public logicalTypes: LogicalTypesConfig = {
+        className: undefined,
+        importFrom: undefined,
+        map: {},
+    };
 
     public constructor(
         outputDir: string,
@@ -24,9 +26,9 @@ export class Compiler extends BaseCompiler {
         this.classPath = path.resolve(outputDir);
         if (config) {
             this.transformName = config.transformName;
-            this.logicalTypesClass = config.logicalTypesClass;
-            this.logicalTypesMap = config.logicalTypes || {};
-            this.imports = config.imports || [];
+            if (config.logicalTypes) {
+                this.logicalTypes = config.logicalTypes;
+            }
         }
     }
 
@@ -53,10 +55,8 @@ export class Compiler extends BaseCompiler {
 
     public async compile(data: any): Promise<CompilerOutput> {
         const classConverter = new ClassConverter({
-            logicalTypes: this.logicalTypesMap,
             transformName: this.transformName,
-            imports: this.imports,
-            logicalTypesClass: this.logicalTypesClass,
+            logicalTypes: this.logicalTypes,
         });
         data = classConverter.getData(data);
 
@@ -100,10 +100,7 @@ export class Compiler extends BaseCompiler {
         if (!fs.existsSync(avroRecordPath)) {
             fs.writeFileSync(
                 avroRecordPath,
-                [
-                    "export { BaseAvroRecord } from \"@degordian/avro-to-typescript\";",
-                    // ...this.imports,
-                ].join("\n"),
+                "export { BaseAvroRecord } from \"@degordian/avro-to-typescript\";\n",
             );
         }
     }

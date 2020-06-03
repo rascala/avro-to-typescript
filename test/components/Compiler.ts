@@ -19,9 +19,7 @@ const toCamelCase = (name: string) => {
     );
 };
 
-const imports = [
-    "export { logicalTypes } from \"@your/library\";",
-];
+const logicalTypesImport = "import { logicalTypes } from \"@your/library\";";
 
 describe("Testing Compiler", () => {
 
@@ -38,8 +36,10 @@ describe("Testing Compiler", () => {
 
         const compiler = new Compiler(compiledFolder, {
             transformName: toCamelCase,
-            imports,
-            logicalTypesClass: "logicalTypes",
+            logicalTypes: {
+                importFrom: logicalTypesImport,
+                className: "logicalTypes",
+            },
         });
 
         await compiler.compile(avro);
@@ -57,8 +57,10 @@ describe("Testing Compiler", () => {
 
         const compiler = new Compiler(compiledFolder, {
             transformName: toCamelCase,
-            imports,
-            logicalTypesClass: "logicalTypes",
+            logicalTypes: {
+                importFrom: logicalTypesImport,
+                className: "logicalTypes",
+            },
         });
 
         await compiler.compile(avro);
@@ -76,8 +78,10 @@ describe("Testing Compiler", () => {
 
         const compiler = new Compiler(compiledFolder, {
             transformName: toCamelCase,
-            imports,
-            logicalTypesClass: "logicalTypes",
+            logicalTypes: {
+                importFrom: logicalTypesImport,
+                className: "logicalTypes",
+            },
         });
 
         await compiler.compile(avro);

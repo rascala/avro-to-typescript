@@ -7,6 +7,9 @@ export class LogicalTypeConverter extends BaseConverter {
         data = this.getData(data) as LogicalType;
         const primitiveConverter = new PrimitiveConverter();
 
-        return this.logicalTypesMap[data.logicalType] || primitiveConverter.convert(data.type);
+        if (this.logicalTypes.map && data.logicalType in this.logicalTypes.map) {
+            return this.logicalTypes.map[data.logicalType];
+        }
+        return primitiveConverter.convert(data.type);
     }
 }
