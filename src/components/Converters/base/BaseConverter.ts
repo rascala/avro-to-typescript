@@ -20,7 +20,6 @@ export abstract class BaseConverter {
     public logicalTypes: LogicalTypesConfig = {
         className: undefined,
         importFrom: undefined,
-        map: {},
     };
 
     constructor(config?: CompilerConfig) {

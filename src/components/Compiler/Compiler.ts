@@ -14,7 +14,6 @@ export class Compiler extends BaseCompiler {
     public logicalTypes: LogicalTypesConfig = {
         className: undefined,
         importFrom: undefined,
-        map: {},
     };
 
     public constructor(

@@ -51,15 +51,6 @@ export class RecordConverter extends BaseConverter {
             return primitiveConverter.convert(type);
         }
 
-        // convert the type from logicalTypeMapping and let it pass through
-        // so that other transformations may override it
-        if (TypeHelper.isLogicalType(type) &&
-            this.logicalTypes.map &&
-            type.logicalType in this.logicalTypes.map
-        ) {
-            type.type = this.logicalTypes.map[type.logicalType];
-        }
-
         if (TypeHelper.isEnumType(type)) {
             const converter = new EnumConverter();
             const exportModel = converter.convert(type);
@@ -86,12 +77,6 @@ export class RecordConverter extends BaseConverter {
         if (TypeHelper.isMapType(type)) {
             // Dictionary of types, string as key
             return `{ [index: string]: ${this.convertType(type.values)} }`;
-        }
-
-        // if no other types matched, try to convert from primitive
-        // or return as is if no primitive-types match
-        if (TypeHelper.isLogicalType(type)) {
-            return primitiveConverter.convert(type.type);
         }
 
         // this.addError(BaseConverter.errorMessages.TYPE_NOT_FOUND);

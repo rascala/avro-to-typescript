@@ -1,7 +1,6 @@
 export interface LogicalTypesConfig {
     className?: string;
     importFrom?: string;
-    map?: {[key: string]: string };
 }
 
 export interface CompilerConfig {
