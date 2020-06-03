@@ -100,7 +100,7 @@ export class Compiler extends BaseCompiler {
         if (!fs.existsSync(avroRecordPath)) {
             fs.writeFileSync(
                 avroRecordPath,
-                "export { BaseAvroRecord } from \"@degordian/avro-to-typescript\";\n",
+                "export { BaseAvroRecord } from \"@MichaelHirn/avro-to-typescript\";\n",
             );
         }
     }
