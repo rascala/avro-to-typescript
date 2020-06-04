@@ -71,8 +71,8 @@ export class ClassConverter extends RecordConverter {
         const TAB = SpecialCharacterHelper.TAB;
 
         let shortName = data.name;
-        let fullName = shortName;
-        if (data.namespace) { fullName = `${data.namespace}.${shortName}`; }
+        const namespacedName = data.namespace ? `${data.namespace}.${shortName}` : shortName;
+        let fullName = namespacedName;
         if (typeof this.transformName === "function") {
             shortName = this.transformName(shortName);
             fullName = this.transformName(fullName);
@@ -82,12 +82,12 @@ export class ClassConverter extends RecordConverter {
         rows.push(`export class ${shortName} extends BaseAvroRecord implements ${fullName}${this.interfaceSuffix} {`);
         rows.push(``);
 
-        rows.push(`${TAB}public static readonly subject: string = "${fullName}";`);
+        rows.push(`${TAB}public static readonly subject: string = "${namespacedName}";`);
         rows.push(`${TAB}public static readonly schema: object = ${JSON.stringify(data, null, 4)}`);
         rows.push(``);
 
-        rows.push(`${TAB}public static deserialize(buffer: Buffer, newSchema?: object): ${fullName} {`);
-        rows.push(`${TAB}${TAB}const result = new ${fullName}();`);
+        rows.push(`${TAB}public static deserialize(buffer: Buffer, newSchema?: object): ${shortName} {`);
+        rows.push(`${TAB}${TAB}const result = new ${shortName}();`);
         rows.push(
           `${TAB}${TAB}const rawResult = this.internalDeserialize(
             buffer,
@@ -125,13 +125,13 @@ export class ClassConverter extends RecordConverter {
         rows.push(``);
 
         rows.push(`${TAB}public schema(): object {`);
-        rows.push(`${TAB}${TAB}return ${fullName}.schema;`);
+        rows.push(`${TAB}${TAB}return ${shortName}.schema;`);
         rows.push(`${TAB}}`);
 
         rows.push(``);
 
         rows.push(`${TAB}public subject(): string {`);
-        rows.push(`${TAB}${TAB}return ${fullName}.subject;`);
+        rows.push(`${TAB}${TAB}return ${shortName}.subject;`);
         rows.push(`${TAB}}`);
 
         rows.push(`}`);

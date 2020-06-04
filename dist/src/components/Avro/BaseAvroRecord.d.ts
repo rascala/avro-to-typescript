@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { Type } from "avsc";
 import { AvroRecord } from "./AvroRecord";
 export declare abstract class BaseAvroRecord implements AvroRecord {
