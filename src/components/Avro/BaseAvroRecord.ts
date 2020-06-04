@@ -26,8 +26,12 @@ export abstract class BaseAvroRecord implements AvroRecord {
         return baseType.createResolver(newType) as Type;
     }
 
-    protected static internalDeserialize<T extends BaseAvroRecord>(buffer: Buffer, newSchema?: object) {
-        const baseType = BaseAvroRecord.getTypeForSchema(this.schema);
+    protected static internalDeserialize<T extends BaseAvroRecord>(
+      buffer: Buffer,
+      newSchema?: object,
+      opts?: any,
+    ) {
+        const baseType = BaseAvroRecord.getTypeForSchema(this.schema, opts);
         let resolver: object;
         let noCheck = false;
 

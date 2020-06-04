@@ -1,4 +1,4 @@
-export interface User {
+export interface comExampleAvroUser {
     id: number;
     username: string;
     passwordHash: string;

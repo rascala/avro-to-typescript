@@ -15,9 +15,24 @@ const getExpectedResult = (file: string) => {
     return fs.readFileSync(file).toString();
 };
 
+const toCamelCase = (name: string) => {
+    return name.replace(
+        /(\w)\.(\w)/gu,
+        (match, p1: string, p2: string) => `${p1}${p2.toUpperCase()}`,
+    );
+};
+
+const logicalTypesImport = "import { logicalTypes } from \"@your/library\";";
+
 describe("RecordType Converter test", () => {
     it("should convert User avro schema to TS class", () => {
-        const converter = new ClassConverter();
+        const converter = new ClassConverter({
+            transformName: toCamelCase,
+            logicalTypes: {
+                importFrom: logicalTypesImport,
+                className: "logicalTypes",
+            },
+        });
         converter.convert(`${avroFolder}/User.avsc`);
 
         const actual = converter.joinExports();
@@ -26,7 +41,13 @@ describe("RecordType Converter test", () => {
     });
 
     it("should convert TradeCollection avro schema to TS class", () => {
-        const converter = new ClassConverter();
+        const converter = new ClassConverter({
+            transformName: toCamelCase,
+            logicalTypes: {
+                importFrom: logicalTypesImport,
+                className: "logicalTypes",
+            },
+        });
         converter.convert(`${avroFolder}/TradeCollection.avsc`);
 
         const actual = converter.joinExports();

@@ -1,3 +1,13 @@
+export interface LogicalTypesConfig {
+    className?: string;
+    importFrom?: string;
+}
+
+export interface CompilerConfig {
+    transformName?: (input: string) => string;
+    logicalTypes?: LogicalTypesConfig;
+}
+
 export abstract class BaseCompiler {
     private _schemaPath: string;
     private _classPath: string;

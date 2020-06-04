@@ -12,7 +12,6 @@ __export(require("./components/Avro/serde/KafkaAvroSerializer"));
 __export(require("./components/Compiler/Compiler"));
 __export(require("./components/Converters/ClassConverter"));
 __export(require("./components/Converters/EnumConverter"));
-__export(require("./components/Converters/LogicalTypeConverter"));
 __export(require("./components/Converters/PrimitiveConverter"));
 __export(require("./components/Converters/RecordConverter"));
 //# sourceMappingURL=index.js.map

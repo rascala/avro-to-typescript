@@ -7,10 +7,19 @@ const TypeHelper_1 = require("../../helpers/TypeHelper");
 const ClassConverter_1 = require("../Converters/ClassConverter");
 const BaseCompiler_1 = require("./base/BaseCompiler");
 class Compiler extends BaseCompiler_1.BaseCompiler {
-    constructor(outputDir, logicalTypes) {
+    constructor(outputDir, config) {
         super();
-        this.logicalTypes = logicalTypes;
+        this.logicalTypes = {
+            className: undefined,
+            importFrom: undefined,
+        };
         this.classPath = path.resolve(outputDir);
+        if (config) {
+            this.transformName = config.transformName;
+            if (config.logicalTypes) {
+                this.logicalTypes = config.logicalTypes;
+            }
+        }
     }
     async compileFolder(schemaPath) {
         try {
@@ -31,7 +40,10 @@ class Compiler extends BaseCompiler_1.BaseCompiler {
         }
     }
     async compile(data) {
-        const classConverter = new ClassConverter_1.ClassConverter(this.logicalTypes);
+        const classConverter = new ClassConverter_1.ClassConverter({
+            transformName: this.transformName,
+            logicalTypes: this.logicalTypes,
+        });
         data = classConverter.getData(data);
         const namespace = data.namespace.replace(/\./g, path.sep);
         const outputDir = `${this.classPath}${path.sep}${namespace}`;
@@ -62,7 +74,7 @@ class Compiler extends BaseCompiler_1.BaseCompiler {
     saveBaseAvroRecord() {
         const avroRecordPath = `${this.classPath}${path.sep}BaseAvroRecord.ts`;
         if (!fs.existsSync(avroRecordPath)) {
-            fs.writeFileSync(avroRecordPath, "export { BaseAvroRecord } from \"@degordian/avro-to-typescript\";\n");
+            fs.writeFileSync(avroRecordPath, "export { BaseAvroRecord } from \"@MichaelHirn/avro-to-typescript\";\n");
         }
     }
 }

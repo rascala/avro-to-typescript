@@ -4,16 +4,31 @@ import { DirHelper } from "../../helpers/DirHelper";
 import { TypeHelper } from "../../helpers/TypeHelper";
 import { CompilerOutput } from "../../interfaces/CompilerOutput";
 import { ExportModel } from "../../models/ExportModel";
+import { CompilerConfig, LogicalTypesConfig } from "../Compiler/base/BaseCompiler";
 import { ClassConverter } from "../Converters/ClassConverter";
 import { BaseCompiler } from "./base/BaseCompiler";
 
 export class Compiler extends BaseCompiler {
     public exports: ExportModel[];
+    public transformName?: (input: string) => string;
+    public logicalTypes: LogicalTypesConfig = {
+        className: undefined,
+        importFrom: undefined,
+    };
 
-    public constructor(outputDir: string, public logicalTypes?: { [key: string]: string }) {
+    public constructor(
+        outputDir: string,
+        config?: CompilerConfig,
+    ) {
         super();
 
         this.classPath = path.resolve(outputDir);
+        if (config) {
+            this.transformName = config.transformName;
+            if (config.logicalTypes) {
+                this.logicalTypes = config.logicalTypes;
+            }
+        }
     }
 
     public async compileFolder(schemaPath: string): Promise<void> {
@@ -38,7 +53,10 @@ export class Compiler extends BaseCompiler {
     }
 
     public async compile(data: any): Promise<CompilerOutput> {
-        const classConverter = new ClassConverter(this.logicalTypes);
+        const classConverter = new ClassConverter({
+            transformName: this.transformName,
+            logicalTypes: this.logicalTypes,
+        });
         data = classConverter.getData(data);
 
         const namespace = data.namespace.replace(/\./g, path.sep);
@@ -81,7 +99,7 @@ export class Compiler extends BaseCompiler {
         if (!fs.existsSync(avroRecordPath)) {
             fs.writeFileSync(
                 avroRecordPath,
-                "export { BaseAvroRecord } from \"@degordian/avro-to-typescript\";\n",
+                "export { BaseAvroRecord } from \"@MichaelHirn/avro-to-typescript\";\n",
             );
         }
     }

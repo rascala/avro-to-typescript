@@ -8,7 +8,7 @@ export interface EmailAddress {
     dateAdded: number;
 }
 
-export interface User {
+export interface comExampleAvroUser {
     id: number;
     username: string;
     passwordHash: string;

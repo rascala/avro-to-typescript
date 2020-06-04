@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { RegistryClientConfig } from "schema-registry";
 import { DataCompression } from "../compression/DataCompression";
 import { KafkaAvroMessage } from "../KafkaAvroMessage";

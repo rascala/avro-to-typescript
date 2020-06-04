@@ -1,9 +1,7 @@
 import { AvroSchema } from "../../../interfaces/AvroSchema";
 import { ExportModel } from "../../../models/ExportModel";
+import { CompilerConfig, LogicalTypesConfig } from "../../Compiler/base/BaseCompiler";
 export declare abstract class BaseConverter {
-    logicalTypesMap: {
-        [key: string]: string;
-    };
     static errorMessages: {
         TYPE_NOT_FOUND: string;
     };
@@ -14,9 +12,9 @@ export declare abstract class BaseConverter {
     exports: ExportModel[];
     enumExports: ExportModel[];
     interfaceExports: ExportModel[];
-    constructor(logicalTypesMap?: {
-        [key: string]: string;
-    });
+    transformName?: (input: string) => string;
+    logicalTypes: LogicalTypesConfig;
+    constructor(config?: CompilerConfig);
     abstract convert(data: any): any;
     joinExports(): string;
     getData(data: any): AvroSchema;

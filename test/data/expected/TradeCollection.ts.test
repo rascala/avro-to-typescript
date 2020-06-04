@@ -1,5 +1,6 @@
 // tslint:disable
 import { BaseAvroRecord } from "../../../BaseAvroRecord";
+import { logicalTypes } from "@your/library";
 import { TradeType } from "./TradeTypeEnum";
 import { TradeDirection } from "./TradeDirectionEnum";
 
@@ -13,16 +14,16 @@ export interface Trade {
     side?: null | TradeDirection;
 }
 
-export interface TradeCollectionInterface {
+export interface comExampleAvroTradeCollectionInterface {
     producerId: string;
     exchange: string;
     market: string;
     trades: Trade[];
 }
 
-export class TradeCollection extends BaseAvroRecord implements TradeCollectionInterface {
+export class comExampleAvroTradeCollection extends BaseAvroRecord implements comExampleAvroTradeCollectionInterface {
 
-    public static readonly subject: string = "TradeCollection";
+    public static readonly subject: string = "comExampleAvroTradeCollection";
     public static readonly schema: object = {
     "type": "record",
     "name": "TradeCollection",
@@ -114,9 +115,13 @@ export class TradeCollection extends BaseAvroRecord implements TradeCollectionIn
     ]
 }
 
-    public static deserialize(buffer: Buffer, newSchema?: object): TradeCollection {
-        const result = new TradeCollection();
-        const rawResult = this.internalDeserialize(buffer, newSchema);
+    public static deserialize(buffer: Buffer, newSchema?: object): comExampleAvroTradeCollection {
+        const result = new comExampleAvroTradeCollection();
+        const rawResult = this.internalDeserialize(
+            buffer,
+            newSchema,
+            { logicalTypes: logicalTypes }
+        );
         result.loadValuesFromType(rawResult);
 
         return result;
@@ -128,10 +133,10 @@ export class TradeCollection extends BaseAvroRecord implements TradeCollectionIn
     public trades: Trade[] = [];
 
     public schema(): object {
-        return TradeCollection.schema;
+        return comExampleAvroTradeCollection.schema;
     }
 
     public subject(): string {
-        return TradeCollection.subject;
+        return comExampleAvroTradeCollection.subject;
     }
 }

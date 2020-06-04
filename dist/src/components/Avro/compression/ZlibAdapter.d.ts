@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { ZlibOptions } from "zlib";
 import { DataCompression } from "./DataCompression";
 export declare class ZlibAdapter implements DataCompression<Buffer, Buffer> {
