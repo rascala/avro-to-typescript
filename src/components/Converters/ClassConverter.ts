@@ -70,10 +70,13 @@ export class ClassConverter extends RecordConverter {
         const interfaceRows: string[] = [];
         const TAB = SpecialCharacterHelper.TAB;
 
-        const shortname = data.name;
+        let shortname = data.name;
         let fullName = shortname;
         if (data.namespace) { fullName = `${data.namespace}.${shortname}`; }
-        if (typeof this.transformName === "function") { fullName = this.transformName(fullName); }
+        if (typeof this.transformName === "function") {
+            shortname = this.transformName(shortname);
+            fullName = this.transformName(fullName);
+        }
 
         interfaceRows.push(`export interface ${fullName}${this.interfaceSuffix} {`);
         rows.push(`export class ${shortname} extends BaseAvroRecord implements ${fullName}${this.interfaceSuffix} {`);
