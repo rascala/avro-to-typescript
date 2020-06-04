@@ -70,16 +70,16 @@ export class ClassConverter extends RecordConverter {
         const interfaceRows: string[] = [];
         const TAB = SpecialCharacterHelper.TAB;
 
-        let shortname = data.name;
-        let fullName = shortname;
-        if (data.namespace) { fullName = `${data.namespace}.${shortname}`; }
+        let shortName = data.name;
+        let fullName = shortName;
+        if (data.namespace) { fullName = `${data.namespace}.${shortName}`; }
         if (typeof this.transformName === "function") {
-            shortname = this.transformName(shortname);
+            shortName = this.transformName(shortName);
             fullName = this.transformName(fullName);
         }
 
         interfaceRows.push(`export interface ${fullName}${this.interfaceSuffix} {`);
-        rows.push(`export class ${shortname} extends BaseAvroRecord implements ${fullName}${this.interfaceSuffix} {`);
+        rows.push(`export class ${shortName} extends BaseAvroRecord implements ${fullName}${this.interfaceSuffix} {`);
         rows.push(``);
 
         rows.push(`${TAB}public static readonly subject: string = "${fullName}";`);
