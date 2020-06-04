@@ -55,15 +55,17 @@ class ClassConverter extends RecordConverter_1.RecordConverter {
         const rows = [];
         const interfaceRows = [];
         const TAB = SpecialCharacterHelper_1.SpecialCharacterHelper.TAB;
-        let fullName = data.name;
+        let shortName = data.name;
+        let fullName = shortName;
         if (data.namespace) {
-            fullName = `${data.namespace}.${fullName}`;
+            fullName = `${data.namespace}.${shortName}`;
         }
         if (typeof this.transformName === "function") {
+            shortName = this.transformName(shortName);
             fullName = this.transformName(fullName);
         }
         interfaceRows.push(`export interface ${fullName}${this.interfaceSuffix} {`);
-        rows.push(`export class ${fullName} extends BaseAvroRecord implements ${fullName}${this.interfaceSuffix} {`);
+        rows.push(`export class ${shortName} extends BaseAvroRecord implements ${fullName}${this.interfaceSuffix} {`);
         rows.push(``);
         rows.push(`${TAB}public static readonly subject: string = "${fullName}";`);
         rows.push(`${TAB}public static readonly schema: object = ${JSON.stringify(data, null, 4)}`);

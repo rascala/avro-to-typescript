@@ -42,8 +42,10 @@ class RecordConverter extends BaseConverter_1.BaseConverter {
         return rows;
     }
     convertType(type) {
-        const primitiveConverter = new PrimitiveConverter_1.PrimitiveConverter();
         if (typeof type === "string") {
+            const primitiveConverter = new PrimitiveConverter_1.PrimitiveConverter({
+                transformName: this.transformName,
+            });
             return primitiveConverter.convert(type);
         }
         if (TypeHelper_1.TypeHelper.isEnumType(type)) {
@@ -58,7 +60,7 @@ class RecordConverter extends BaseConverter_1.BaseConverter {
         if (TypeHelper_1.TypeHelper.isRecordType(type)) {
             this.interfaceRows.push(...this.extractInterface(type));
             this.interfaceRows.push("");
-            return type.name;
+            return typeof this.transformName === "function" ? this.transformName(type.name) : type.name;
         }
         if (TypeHelper_1.TypeHelper.isArrayType(type)) {
             return `${this.convertType(type.items)}[]`;

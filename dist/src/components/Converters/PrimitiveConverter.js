@@ -18,7 +18,7 @@ class PrimitiveConverter extends BaseConverter_1.BaseConverter {
             case "boolean":
                 return "boolean";
             default:
-                return type;
+                return typeof this.transformName === "function" ? this.transformName(type) : type;
         }
     }
 }

@@ -45,8 +45,10 @@ export class RecordConverter extends BaseConverter {
     }
 
     protected convertType(type: Type): string {
-        const primitiveConverter = new PrimitiveConverter();
         if (typeof type === "string") {
+            const primitiveConverter = new PrimitiveConverter({
+                transformName: this.transformName,
+            });
             return primitiveConverter.convert(type);
         }
 
@@ -66,7 +68,9 @@ export class RecordConverter extends BaseConverter {
             this.interfaceRows.push(...this.extractInterface(type));
             this.interfaceRows.push("");
 
-            return type.name;
+            // in case the type is another record,
+            // apply the same transformName that we do on the record
+            return typeof this.transformName === "function" ? this.transformName(type.name) : type.name;
         }
 
         if (TypeHelper.isArrayType(type)) {
