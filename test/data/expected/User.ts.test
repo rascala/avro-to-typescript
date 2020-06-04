@@ -38,7 +38,7 @@ export interface comExampleAvroUserInterface {
     toDoItems: ToDoItem[];
 }
 
-export class comExampleAvroUser extends BaseAvroRecord implements comExampleAvroUserInterface {
+export class User extends BaseAvroRecord implements comExampleAvroUserInterface {
 
     public static readonly subject: string = "comExampleAvroUser";
     public static readonly schema: object = {
