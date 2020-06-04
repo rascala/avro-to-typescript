@@ -40,7 +40,7 @@ export interface comExampleAvroUserInterface {
 
 export class User extends BaseAvroRecord implements comExampleAvroUserInterface {
 
-    public static readonly subject: string = "comExampleAvroUser";
+    public static readonly subject: string = "User";
     public static readonly schema: object = {
     "type": "record",
     "name": "User",
@@ -225,8 +225,8 @@ export class User extends BaseAvroRecord implements comExampleAvroUserInterface 
     ]
 }
 
-    public static deserialize(buffer: Buffer, newSchema?: object): comExampleAvroUser {
-        const result = new comExampleAvroUser();
+    public static deserialize(buffer: Buffer, newSchema?: object): User {
+        const result = new User();
         const rawResult = this.internalDeserialize(
             buffer,
             newSchema,
@@ -246,10 +246,10 @@ export class User extends BaseAvroRecord implements comExampleAvroUserInterface 
     public toDoItems!: ToDoItem[];
 
     public schema(): object {
-        return comExampleAvroUser.schema;
+        return User.schema;
     }
 
     public subject(): string {
-        return comExampleAvroUser.subject;
+        return User.subject;
     }
 }
