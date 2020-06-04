@@ -45,8 +45,10 @@ export class RecordConverter extends BaseConverter {
     }
 
     protected convertType(type: Type): string {
-        const primitiveConverter = new PrimitiveConverter();
         if (typeof type === "string") {
+            const primitiveConverter = new PrimitiveConverter({
+                transformName: this.transformName,
+            });
             return primitiveConverter.convert(type);
         }
 
