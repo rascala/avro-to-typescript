@@ -23,7 +23,7 @@ export interface comExampleAvroTradeCollectionInterface {
 
 export class TradeCollection extends BaseAvroRecord implements comExampleAvroTradeCollectionInterface {
 
-    public static readonly subject: string = "TradeCollection";
+    public static readonly subject: string = "com.example.avro.TradeCollection";
     public static readonly schema: object = {
     "type": "record",
     "name": "TradeCollection",

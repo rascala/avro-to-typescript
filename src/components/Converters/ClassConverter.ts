@@ -71,8 +71,8 @@ export class ClassConverter extends RecordConverter {
         const TAB = SpecialCharacterHelper.TAB;
 
         let shortName = data.name;
-        let fullName = shortName;
-        if (data.namespace) { fullName = `${data.namespace}.${shortName}`; }
+        const namespacedName = data.namespace ? `${data.namespace}.${shortName}` : shortName;
+        let fullName = namespacedName;
         if (typeof this.transformName === "function") {
             shortName = this.transformName(shortName);
             fullName = this.transformName(fullName);
@@ -82,7 +82,7 @@ export class ClassConverter extends RecordConverter {
         rows.push(`export class ${shortName} extends BaseAvroRecord implements ${fullName}${this.interfaceSuffix} {`);
         rows.push(``);
 
-        rows.push(`${TAB}public static readonly subject: string = "${shortName}";`);
+        rows.push(`${TAB}public static readonly subject: string = "${namespacedName}";`);
         rows.push(`${TAB}public static readonly schema: object = ${JSON.stringify(data, null, 4)}`);
         rows.push(``);
 

@@ -40,7 +40,7 @@ export interface comExampleAvroUserInterface {
 
 export class User extends BaseAvroRecord implements comExampleAvroUserInterface {
 
-    public static readonly subject: string = "User";
+    public static readonly subject: string = "com.example.avro.User";
     public static readonly schema: object = {
     "type": "record",
     "name": "User",
